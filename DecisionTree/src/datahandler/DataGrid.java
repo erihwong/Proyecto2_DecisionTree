@@ -17,8 +17,8 @@ import java.util.Iterator;
  * @author erick
  */
 public class DataGrid {
-    public HashMap<String, ArrayList<Integer>> dataSet;
-    public HashMap<String, Integer> giniSet;
+    private HashMap<String, ArrayList<Integer>> dataSet;
+    private HashMap<String, Integer> giniSet;
     
     public DataGrid(){
         dataSet = new HashMap<String, ArrayList<Integer>>();
@@ -45,8 +45,17 @@ public class DataGrid {
                 }
                 
             }
-            
         }
         
     }
+
+    public HashMap<String, ArrayList<Integer>> getDataSet() {
+        return dataSet;
+    }
+
+    public HashMap<String, Integer> getGiniSet() {
+        return giniSet;
+    }
+    
+    
 }

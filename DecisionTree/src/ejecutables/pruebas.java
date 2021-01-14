@@ -26,7 +26,7 @@ public class pruebas {
             System.out.println("Error: File not Found.");
         }
         
-        pacientesGrid.dataSet.entrySet().forEach((me) -> {
+        pacientesGrid.getDataSet().entrySet().forEach((me) -> {
             System.out.println("KEY: "+me.getKey()+" VALUE: "+me.getValue());
         });
         
