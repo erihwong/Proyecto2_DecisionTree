@@ -23,7 +23,7 @@ public class DataGrid {
     public DataGrid(){
         dataSet = new HashMap<String, ArrayList<Integer>>();
         giniSet = new HashMap<String, Integer>();
-    }
+    } 
     
     public void cargarDatos(String fileName) throws IOException{
         String line;
@@ -34,6 +34,7 @@ public class DataGrid {
             for(String str: header){
                 ArrayList<Integer> arrInt = new ArrayList<Integer>();
                 this.dataSet.put(str, arrInt);
+                this.giniSet.put(str, 0);
             }
             
             while((line = reader.readLine()) != null){
