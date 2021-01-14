@@ -18,11 +18,11 @@ import java.util.Iterator;
  */
 public class DataGrid {
     private HashMap<String, ArrayList<Integer>> dataSet;
-    private HashMap<String, Integer> giniSet;
+    private HashMap<String, Double> giniSet;
     
     public DataGrid(){
         dataSet = new HashMap<String, ArrayList<Integer>>();
-        giniSet = new HashMap<String, Integer>();
+        giniSet = new HashMap<String, Double>();
     } 
     
     public void cargarDatos(String fileName) throws IOException{
@@ -34,7 +34,7 @@ public class DataGrid {
             for(String str: header){
                 ArrayList<Integer> arrInt = new ArrayList<Integer>();
                 this.dataSet.put(str, arrInt);
-                this.giniSet.put(str, 0);
+                this.giniSet.put(str, 0.0);
             }
             
             while((line = reader.readLine()) != null){
