@@ -25,8 +25,8 @@ public class pruebas {
         }catch(IOException notFound){
             System.out.println("Error: File not Found.");
         }
-        
-        pacientesGrid.getDataSet().entrySet().forEach((me) -> {
+        pacientesGrid.actualizar_gini("DEATH_EVENT");
+        pacientesGrid.getGiniSet().entrySet().forEach((me) -> {
             System.out.println("KEY: "+me.getKey()+" VALUE: "+me.getValue());
         });
         

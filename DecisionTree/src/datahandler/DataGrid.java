@@ -52,7 +52,37 @@ public class DataGrid {
 
     private double calcular_gini(String columna,String target){
         //calcular gini
-        return 0.0;
+        
+        ArrayList<Integer> datosCol=dataSet.get(columna);
+        ArrayList<Integer> datosTarget=dataSet.get(target);
+        if (columna.compareTo(target)==0){// gini hoja
+            double contador_si=0;
+            double contador_no=0;
+            for (int i=0;i<datosCol.size();i++){
+                if (datosCol.get(i)==1)contador_si+=1;
+                else contador_no+=1;
+            }
+            double totales=contador_si+contador_no;
+            return 1-Math.pow(contador_si/totales,2)-Math.pow(contador_no/totales,2);
+        }
+        double contador_si_si=0;
+        double contador_si_no=0;
+        double contador_no_si=0;
+        double contador_no_no=0;
+        for (int i=0;i<datosCol.size();i++){
+            if (datosCol.get(i)==1 && datosTarget.get(i)==1)contador_si_si++;
+            else if (datosCol.get(i)==1 && datosTarget.get(i)==0)contador_si_no++;
+            else if (datosCol.get(i)==0 && datosTarget.get(i)==1)contador_no_si++;
+            else if (datosCol.get(i)==0 && datosTarget.get(i)==0)contador_no_no++;
+        }
+        final double totales=contador_si_si+contador_si_no+contador_no_si+contador_no_no;
+        final double totales_si=contador_si_si+contador_si_no;
+        final double totales_no=contador_no_si+contador_no_no;
+
+        double gini_izq=1-Math.pow(contador_si_si/totales_si,2)-Math.pow(contador_si_no/totales_si,2);
+        double gini_der=1-Math.pow(contador_no_si/totales_no,2)-Math.pow(contador_no_no/totales_no,2);
+        return gini_izq*(totales_si/totales)+gini_der*(totales_no/totales);
+        
     }
     public void actualizar_gini(String target){
         for (String str:dataSet.keySet()){
@@ -61,7 +91,7 @@ public class DataGrid {
         
         
     }
-    
+ 
     public HashMap<String, ArrayList<Integer>> getDataSet() {
         return dataSet;
     }
