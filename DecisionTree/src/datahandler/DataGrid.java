@@ -50,13 +50,26 @@ public class DataGrid {
         
     }
 
+    private double calcular_gini(String columna,String target){
+        //calcular gini
+        return 0.0;
+    }
+    public void actualizar_gini(String target){
+        for (String str:dataSet.keySet()){
+            giniSet.put(str, calcular_gini(str,target));
+        }
+        
+        
+    }
+    
     public HashMap<String, ArrayList<Integer>> getDataSet() {
         return dataSet;
     }
 
-    public HashMap<String, Integer> getGiniSet() {
+    public HashMap<String, Double> getGiniSet() {
         return giniSet;
     }
+    
     
     
 }
