@@ -51,31 +51,36 @@ public class DataGrid {
     }
 
     private double calcular_gini(String columna,String target){
-        //calcular gini
+        ArrayList<Integer> datosCol = dataSet.get(columna);
+        ArrayList<Integer> datosTarget = dataSet.get(target);
         
-        ArrayList<Integer> datosCol=dataSet.get(columna);
-        ArrayList<Integer> datosTarget=dataSet.get(target);
-        if (columna.compareTo(target)==0){// gini hoja
+        final double totales=datosCol.size();
+        
+        //gini hoja
+        if (columna.compareTo(target)==0){
             double contador_si=0;
-            double contador_no=0;
-            for (int i=0;i<datosCol.size();i++){
-                if (datosCol.get(i)==1)contador_si+=1;
-                else contador_no+=1;
+            
+            for(Integer integ: datosCol){
+                if (integ == 1) contador_si+=1;
             }
-            double totales=contador_si+contador_no;
+            
+            double contador_no = totales - contador_si;
             return 1-Math.pow(contador_si/totales,2)-Math.pow(contador_no/totales,2);
         }
+        
+        //gini nodo
         double contador_si_si=0;
         double contador_si_no=0;
         double contador_no_si=0;
         double contador_no_no=0;
+        
         for (int i=0;i<datosCol.size();i++){
             if (datosCol.get(i)==1 && datosTarget.get(i)==1)contador_si_si++;
             else if (datosCol.get(i)==1 && datosTarget.get(i)==0)contador_si_no++;
             else if (datosCol.get(i)==0 && datosTarget.get(i)==1)contador_no_si++;
-            else if (datosCol.get(i)==0 && datosTarget.get(i)==0)contador_no_no++;
+            else contador_no_no++;
         }
-        final double totales=contador_si_si+contador_si_no+contador_no_si+contador_no_no;
+        
         final double totales_si=contador_si_si+contador_si_no;
         final double totales_no=contador_no_si+contador_no_no;
 
@@ -84,12 +89,11 @@ public class DataGrid {
         return gini_izq*(totales_si/totales)+gini_der*(totales_no/totales);
         
     }
+    
     public void actualizar_gini(String target){
         for (String str:dataSet.keySet()){
             giniSet.put(str, calcular_gini(str,target));
         }
-        
-        
     }
  
     public HashMap<String, ArrayList<Integer>> getDataSet() {
