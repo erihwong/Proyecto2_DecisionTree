@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -44,12 +45,28 @@ public class DataGrid {
                     this.dataSet.get(str).add(Integer.parseInt(row[cont]));
                     cont++;
                 }
-                
             }
         }
         
     }
-
+    
+    public DataGrid segmentarDatos(String target){
+        actualizar_gini(target);
+        double min = Collections.min(this.giniSet.values());
+        String minAtr = "";
+        for(String str: this.giniSet.keySet()){
+            if(this.giniSet.get(str) == min) minAtr = str;
+        }
+        System.out.println(minAtr);
+        return null;
+    }
+    
+    public void actualizar_gini(String target){
+        for (String str:dataSet.keySet()){
+            giniSet.put(str, calcular_gini(str,target));
+        }
+    }
+    
     private double calcular_gini(String columna,String target){
         ArrayList<Integer> datosCol = dataSet.get(columna);
         ArrayList<Integer> datosTarget = dataSet.get(target);
@@ -88,12 +105,6 @@ public class DataGrid {
         double gini_der=1-Math.pow(contador_no_si/totales_no,2)-Math.pow(contador_no_no/totales_no,2);
         return gini_izq*(totales_si/totales)+gini_der*(totales_no/totales);
         
-    }
-    
-    public void actualizar_gini(String target){
-        for (String str:dataSet.keySet()){
-            giniSet.put(str, calcular_gini(str,target));
-        }
     }
  
     public HashMap<String, ArrayList<Integer>> getDataSet() {
