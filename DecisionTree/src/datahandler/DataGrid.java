@@ -9,9 +9,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Map.Entry;
 
 /**
  *
@@ -50,15 +49,48 @@ public class DataGrid {
         
     }
     
-    public DataGrid segmentarDatos(String target){
+    public DataGrid[] segmentarDatos(String target){
         actualizar_gini(target);
-        double min = Collections.min(this.giniSet.values());
-        String minAtr = "";
-        for(String str: this.giniSet.keySet()){
-            if(this.giniSet.get(str) == min) minAtr = str;
+        
+        //encontrar atributo con menor gini
+        Entry<String, Double> min = null;
+        for(Entry<String, Double> entry: this.giniSet.entrySet()){
+            if(min==null||min.getValue()>entry.getValue()){
+                min = entry;
+            }
         }
-        System.out.println(minAtr);
-        return null;
+        
+        //crear datosPositivos y datosNegativos
+        DataGrid datosPositivos = new DataGrid();
+        DataGrid datosNegativos = new DataGrid();
+        
+        //agregar los atributos a datosP y datosN con valores(new arrayList)
+        for(Entry<String, ArrayList<Integer>> entry: this.dataSet.entrySet()){
+            if(!min.getKey().equals(entry.getKey())){
+                datosPositivos.getDataSet().put(entry.getKey(), new ArrayList<Integer>());
+                datosPositivos.getGiniSet().put(entry.getKey(), 0.0);
+                
+                datosNegativos.getDataSet().put(entry.getKey(), new ArrayList<Integer>());
+                datosNegativos.getGiniSet().put(entry.getKey(), 0.0);
+            }
+        }
+        
+        //llenar los atributos a datosP y datosN
+        for(int i=0;i<this.dataSet.get(min.getKey()).size();i++){
+            //for que recorre los otros atributos
+            for(Entry<String, ArrayList<Integer>> entry: this.dataSet.entrySet()){
+                if(!min.getKey().equals(entry.getKey())){
+                    if(this.dataSet.get(min.getKey()).get(i) == 1){
+                        datosPositivos.getDataSet().get(entry.getKey()).add(this.dataSet.get(entry.getKey()).get(i));
+                    }else{
+                        datosNegativos.getDataSet().get(entry.getKey()).add(this.dataSet.get(entry.getKey()).get(i));
+                    }
+                }
+            }
+        }
+        
+        DataGrid[] dataSegmentada = {datosPositivos, datosNegativos};
+        return dataSegmentada;
     }
     
     public void actualizar_gini(String target){
