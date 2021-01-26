@@ -5,8 +5,11 @@
  */
 package ejecutables;
 
+import datahandler.ArbolDecision;
 import datahandler.DataGrid;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,19 +19,23 @@ public class pruebas {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        DataGrid pacientesGrid = new DataGrid();
-        
-        try{
+    public static void main(String[] args) throws IOException {
+            // TODO code application logic here
+            /*DataGrid pacientesGrid = new DataGrid();
+            
+            try{
             pacientesGrid.cargarDatos("datos_booleanos");
-        }catch(IOException notFound){
+            }catch(IOException notFound){
             System.out.println("Error: File not Found.");
-        }
-        pacientesGrid.actualizar_gini("DEATH_EVENT");
-        pacientesGrid.getGiniSet().entrySet().forEach((me) -> {
+            }
+            pacientesGrid.actualizar_gini("DEATH_EVENT");
+            pacientesGrid.getGiniSet().entrySet().forEach((me) -> {
             System.out.println("KEY: "+me.getKey()+" VALUE: "+me.getValue());
-        });
+            });*/
+            ArbolDecision tree= new ArbolDecision("datos_booleanos");
+            //tree.printTree();
+            System.out.println(tree.run_test());
+        
         
         
     }

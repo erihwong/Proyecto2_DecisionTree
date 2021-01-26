@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.stream.IntStream;
 
 /**
  *
@@ -48,17 +49,30 @@ public class DataGrid {
         }
         
     }
-    
-    public DataGrid[] segmentarDatos(String target){
-        actualizar_gini(target);
-        
-        //encontrar atributo con menor gini
+    public Entry<String, Double> get_min_gini(){
+        //actualizar_gini(target);
         Entry<String, Double> min = null;
         for(Entry<String, Double> entry: this.giniSet.entrySet()){
             if(min==null||min.getValue()>entry.getValue()){
                 min = entry;
             }
         }
+        //System.out.println(min.getKey()+" "+min.getValue());
+        return min;
+        
+    }
+    public DataGrid[] segmentarDatos(String target){
+        actualizar_gini(target);
+        
+        //encontrar atributo con menor gini
+        Entry<String, Double> min = get_min_gini();
+        /*
+        for(Entry<String, Double> entry: this.giniSet.entrySet()){
+            if(min==null||min.getValue()>entry.getValue()){
+                min = entry;
+            }
+        }*/
+        
         
         //crear datosPositivos y datosNegativos
         DataGrid datosPositivos = new DataGrid();
@@ -139,6 +153,17 @@ public class DataGrid {
         
     }
  
+    public int contarPositivos (String target){ 
+        ArrayList<Integer> datos=dataSet.get(target);
+        int contador=0;
+        for (int d:datos)contador+=d;
+        return contador;
+    }
+    public int contarNegativos(String target){
+        ArrayList<Integer> datos=dataSet.get(target);
+        int contadorPositivos=contarPositivos(target);
+        return datos.size()-contadorPositivos;
+    }
     public HashMap<String, ArrayList<Integer>> getDataSet() {
         return dataSet;
     }
