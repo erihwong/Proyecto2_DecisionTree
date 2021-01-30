@@ -11,15 +11,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.stream.IntStream;
 
 /**
  *
  * @author erick
  */
 public class DataGrid {
-    private HashMap<String, ArrayList<Integer>> dataSet;
-    private HashMap<String, Double> giniSet;
+    private final HashMap<String, ArrayList<Integer>> dataSet;
+    private final HashMap<String, Double> giniSet;
     
     public DataGrid(){
         dataSet = new HashMap<String, ArrayList<Integer>>();
@@ -49,6 +48,7 @@ public class DataGrid {
         }
         
     }
+    
     public Entry<String, Double> get_min_gini(){
         //actualizar_gini(target);
         Entry<String, Double> min = null;
@@ -61,18 +61,12 @@ public class DataGrid {
         return min;
         
     }
+    
     public DataGrid[] segmentarDatos(String target){
         actualizar_gini(target);
         
         //encontrar atributo con menor gini
         Entry<String, Double> min = get_min_gini();
-        /*
-        for(Entry<String, Double> entry: this.giniSet.entrySet()){
-            if(min==null||min.getValue()>entry.getValue()){
-                min = entry;
-            }
-        }*/
-        
         
         //crear datosPositivos y datosNegativos
         DataGrid datosPositivos = new DataGrid();
@@ -159,6 +153,7 @@ public class DataGrid {
         for (int d:datos)contador+=d;
         return contador;
     }
+    
     public int contarNegativos(String target){
         ArrayList<Integer> datos=dataSet.get(target);
         int contadorPositivos=contarPositivos(target);
